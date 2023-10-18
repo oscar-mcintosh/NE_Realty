@@ -14,9 +14,7 @@
             <div class="content grid grid-3">
                 <div  v-for="property in propertyStore.property"
                             :key="property.id">
-                  <!-- <div class="card"> -->
                     <ListingCard :property="property"/>
-                  <!-- </div> -->
                 </div>
             </div>
         </div>
@@ -27,9 +25,6 @@
 </template>
 
 <script setup>
-const searchedListing = ref([]);
-const searchInput = ref('');
-const fetchState = ref({ pending: false });
 import { usePropertyStore } from '@/stores/propertyStore';
 
 
@@ -37,43 +32,7 @@ import { usePropertyStore } from '@/stores/propertyStore';
 
     const getProperty =  propertyStore.getProperty()
 
-        const headers = new Headers({
-          'Authorization': 'Bearer patevbkap9GYPDy3X.ddfe0e6d8d2504cc6f8b9aa7603a4969cefe3e644efef2142d541f3e998ad625',
-        });
 
-        const config = { headers };
-
-
-const searchListing = async () => {
-  fetchState.value.pending = true;
-  const response = await fetch(
-        `https://api.airtable.com/v0/appY0bzf2gBIl0j7i/zillow?filterByFormula=ARRAYUNIQUE(${searchInput.value})%3D%3E+%5B1%2C2%2C3%5D`, config
-
-    // `https://api.airtable.com/v0/appY0bzf2gBIl0j7i/zillow/${searchInput.value}`, config
-  );
-  const data = await response.json();
-  console.log(data)
-  searchedListing.value = data.results;
-  fetchState.value.pending = false;
-};
-console.log(searchedListing.value)
-
-const clearSearch = () => {
-  searchInput.value = '';
-  searchedListing.value = [];
-};
-
-const fetchMovies = () => {
-  if (searchInput.value === '') {
-    getMovies();
-  } else {
-    searchListing();
-  }
-};
-
-watch(searchInput, () => {
-  console.log(searchInput.value);
-});
 
 </script>
 
